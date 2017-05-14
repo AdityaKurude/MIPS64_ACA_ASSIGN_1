@@ -1,7 +1,7 @@
       .data 
 N_COEFFS:  .word 3
 coeff: .double 1.0,25.0,3.0
-N_SAMPLES: .word 10
+N_SAMPLES: .word 3
 sample: .double 1,2,3,4,5,6,7,8,9,10
 result: .double 0,0,0,0,0,0,0,0,0,0
 
@@ -12,7 +12,8 @@ start:	ld $t1,N_COEFFS(r0)  # $t1 = N_COEFFS
 	ld $t0,N_SAMPLES(r0)  # $t0 = N_SAMPLES
 	slt $t2,$t1,$t0    # N_COEFFS < N_SAMPLES?
         bnez $t2,smooth       # yes - go to smooth
-        halt
+	beq $t1,$t0,smooth # branch N_COEFFS = N_SAMPLES        
+	halt
 
 smooth:    
 	daddu $t0,r0,r0   ; $t0 = 0
